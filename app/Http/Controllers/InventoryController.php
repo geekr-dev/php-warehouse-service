@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateInventoryAction;
+use App\Http\Requests\GetInventoryRequest;
 use App\Http\Requests\StoreInventoryRequest;
+use App\Http\Resources\ProductResource;
+use App\Models\Inventory;
 use App\Models\Product;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
@@ -16,9 +19,14 @@ class InventoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(GetInventoryRequest $request)
     {
-        //
+        $products = Product::find($request->getProductIds());
+        $inventories = Inventory::totalQuantities($products);
+
+        return [
+            'data' => $inventories,
+        ];
     }
 
     /**
@@ -43,12 +51,14 @@ class InventoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        //
+        return [
+            'data' => (new ProductResource($product)),
+        ];
     }
 
     /**
