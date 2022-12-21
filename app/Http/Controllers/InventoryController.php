@@ -54,7 +54,7 @@ class InventoryController extends Controller
      * @param  Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function get(Product $product)
     {
         return [
             'data' => (new ProductResource($product)),

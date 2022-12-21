@@ -15,3 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('inventories', InventoryController::class);
+
+Route::get('inventory/products/{product}', InventoryController::class . '@get');
